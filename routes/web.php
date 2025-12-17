@@ -23,4 +23,9 @@ Route::prefix('/pegawai')->group(function () {
     Route::get('/edit/{id}', [PegawaiController::class, 'edit'])->name('pegawai.edit');
     Route::put('/update/{id}', [PegawaiController::class, 'update'])->name('pegawai.update');
     Route::delete('/destroy/{id}', [PegawaiController::class, 'destroy'])->name('pegawai.destroy');
+    
+    // Soft Delete Routes
+    Route::get('/trash', [PegawaiController::class, 'trash'])->name('pegawai.trash');
+    Route::put('/restore/{id}', [PegawaiController::class, 'restore'])->name('pegawai.restore');
+    Route::delete('/force-delete/{id}', [PegawaiController::class, 'forceDelete'])->name('pegawai.force-delete');
 });

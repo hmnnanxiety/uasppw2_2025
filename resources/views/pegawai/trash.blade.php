@@ -1,9 +1,9 @@
 @extends('base')
-@section('title','Pegawai')
+@section('title','Recycle Bin - Pegawai')
 @section('menupegawai', 'underline decoration-4 underline-offset-7')
 @section('content')
     <section class="p-4 bg-white rounded-lg min-h-[50vh]">
-        <h1 class="text-3xl font-bold text-[#C0392B] mb-6 text-center">Pegawai</h1>
+        <h1 class="text-3xl font-bold text-[#C0392B] mb-6 text-center">Recycle Bin - Pegawai</h1>
         <div class="mx-auto max-w-screen-xl">
             
             {{-- Notifikasi --}}
@@ -19,21 +19,10 @@
                 </div>
             @endif
             
-            <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div class="flex gap-2">
-                    <a href="{{ route('pegawai.add') }}" class="rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700">
-                        Tambah Data
-                    </a>
-                    <a href="{{ route('pegawai.trash') }}" class="rounded-md bg-gray-600 px-4 py-2 text-sm text-white hover:bg-gray-700">
-                        🗑️ Recycle Bin
-                    </a>
-                </div>
-                <form class="flex w-full max-w-sm gap-2" autocomplete="off">
-                    <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="Masukkan kata kunci..." class="w-full rounded-md border px-3 py-2 text-sm">
-                    <button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 cursor-pointer">
-                        Cari
-                    </button>
-                </form>
+            <div class="mb-4 flex gap-3">
+                <a href="{{ route('pegawai.index') }}" class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                    ← Kembali ke Daftar Pegawai
+                </a>
             </div>
             
             <div class="overflow-x-auto rounded-lg border border-gray-200">
@@ -45,8 +34,8 @@
                         <th class="px-4 py-3 text-left font-semibold text-gray-700">Email</th>
                         <th class="px-4 py-3 text-left font-semibold text-gray-700">Gender</th>
                         <th class="px-4 py-3 text-left font-semibold text-gray-700">Pekerjaan</th>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-700">Status</th>
-                        <th class="px-4 py-3 text-center font-semibold text-gray-700" width="1"></th>
+                        <th class="px-4 py-3 text-left font-semibold text-gray-700">Dihapus Pada</th>
+                        <th class="px-4 py-3 text-center font-semibold text-gray-700" width="1">Aksi</th>
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 bg-white">
@@ -63,23 +52,21 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3 text-gray-600">{{ $d->pekerjaan->nama ?? '-' }}</td>
-                            <td class="px-4 py-3 text-gray-600">
-                                @if($d->is_active)
-                                    <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">Active</span>
-                                @else
-                                    <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded">Inactive</span>
-                                @endif
-                            </td>
+                            <td class="px-4 py-3 text-gray-600">{{ $d->deleted_at->diffForHumans() }}</td>
                             <td class="px-4 py-3 text-center text-gray-600">
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
-                                    <a href="{{ route('pegawai.edit', ['id' => $d->id]) }}" class="cursor-pointer rounded-l-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-blue-600 hover:bg-blue-50">
-                                        Edit
-                                    </a>
-                                    <form action="{{ route('pegawai.destroy', ['id' => $d->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                    <form action="{{ route('pegawai.restore', ['id' => $d->id]) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="cursor-pointer rounded-l-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-green-600 hover:bg-green-50">
+                                            Pulihkan
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('pegawai.force-delete', ['id' => $d->id]) }}" method="POST" onsubmit="return confirm('PERINGATAN: Data akan dihapus permanen dan tidak dapat dipulihkan! Lanjutkan?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="cursor-pointer rounded-r-md border border-l-0 border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50">
-                                            Delete
+                                            Hapus Permanen
                                         </button>
                                     </form>
                                 </div>
@@ -87,7 +74,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="px-4 py-3 text-center text-gray-500">Tidak ada data</td>
+                            <td colspan="7" class="px-4 py-3 text-center text-gray-500">Tidak ada data di recycle bin</td>
                         </tr>
                         @endforelse
                     </tbody>
