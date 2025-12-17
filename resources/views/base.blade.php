@@ -16,7 +16,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/logo-putih.png') }}">
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('img/logo-putih.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/logo-putih.png') }}">
-    <!-- Primary Meta Tags -->
     <title>{{ config('app.name') }} • @yield('title')</title>
 
     <meta name="title" content="{{ config('app.name') }}">
@@ -24,14 +23,12 @@
     <meta name="keywords" content="Praktikum Pemrograman Web 2, Universitas Gadjah Mada, proyek praktikum, aplikasi web, sistem informasi akademik, pembelajaran pemrograman, Laravel, pengembangan web, proyek mahasiswa"/>
     <meta name="author" content="Abidurrahman Al-Faruq"/>
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="#">
     <meta property="og:title" content="{{ config('app.name') }}">
     <meta property="og:description" content="Aplikasi ini merupakan proyek dasar Praktikum Pemrograman Web 2 di Universitas Gadjah Mada yang dirancang untuk mendukung proses pembelajaran mahasiswa dalam pengembangan aplikasi web.">
     <meta property="og:image" content="{{ asset('img/logo-putih.png') }}">
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="website">
     <meta property="twitter:url" content="#">
     <meta property="twitter:title" content="{{ config('app.name') }}">
@@ -70,7 +67,7 @@
                     <a href="{{ route('pekerjaan.index') }}" class="block py-2 px-3 md:p-0 transition-transform hover:scale-120 text-[#96291F] @yield('menupekerjaan')">Pekerjaan</a>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 px-3 md:p-0 transition-transform hover:scale-120 text-[#96291F] @yield('menupegawai')">Pegawai</a>
+                    <a href="{{ route('pegawai.index') }}" class="block py-2 px-3 md:p-0 transition-transform hover:scale-120 text-[#96291F] @yield('menupegawai')">Pegawai</a>
                 </li>
             </ul>
         </div>

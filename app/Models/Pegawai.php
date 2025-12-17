@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 
 class Pegawai extends Model
 {
     protected $table = 'pegawai';
+    protected $fillable = ['nama', 'email', 'gender', 'pekerjaan_id', 'is_active'];
 
-    public function pegawai()
+    public function pekerjaan()
     {
-        return $this->hasOne(Pekerjaan::class);
+    return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id');
     }
 }
